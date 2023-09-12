@@ -12,7 +12,7 @@
 -  We provide not fully industrial Big Data model.
 -  We suppose that  number of Players are not more than 5 000 000 and number of instance are not more than 10
 -  In the case of huge amount of data and a hight request density, model of a single (or not)microservice, which reads data and serves clients IS NOT APPLICABLE and another architecture should be used, when a reader microservice(scheduler) reads data from a huge file, inserts them in a document search engine (as Solr,NOT A RANDOM ACCESS DATABASE!!) and then notifies retrievers.
--  In the mentioned big data case, application should work in a number of podes/instances and database update should be out of its business competence. It should be alerted to change of ready and HANDS-OFF (!) data source,as URL
+-  In the mentioned case of big data, application should run in number of instances and database update should be out of its business competence.It should be alerted to change of ready and HANDS-OFF (!) data source,as URL
 -  In the last case requirement that "api/players" returns all players is simply not applicable and should be replaced by a query with paginated results
 -  The microservice runs in an environment, which supports volumes, which are shared for volume to internal docker directory mapping
 
@@ -36,8 +36,7 @@
 -  - dao (replacable data access)
 -  - dao.api (exposes common dao interface)
 -  - dao.in_mem (represents in memeory implementation of DAO)
--  - dao_solr staff for configuring application to be publisher of data are inserted 
--    in Solr
+-  - dao_solr staff for configuring application to be publisher of data are inserted in Solr
 -  - dao.observer.file (observer of files and mounted volume)
 -    rest layer currently has the only sublayer:
 -  - spring (Spring controller,  and security configuration.
@@ -74,10 +73,10 @@
      It is not a volume of work for Kafka and another message Q.There are another cloud provier inherent mechanisms
 ### Why not Spring repositories:
 - Spring inherented.
-- Has number of layers of reflection driven staff, from hibernate, to EntityManager.
+- It has number of layers of reflection driven staff, from hibernate, to EntityManager.
 
 ## configurable features and config variables:
-- server port managed by the ENV_SERVER_PORT, default is 10101 
+- server port managed by the ENV_SERVER_PORT, by default it is 10101 
 - document API url is managed by the ENV_API_DOCS variable, default is /api-docs
 - specific public access URI list is managed by ENV_OPEN_URIS variable, default is /api-docs
 - is api protected is managed by the variable ENV_PROTECT_API: default value is false
@@ -89,7 +88,7 @@
 - File observation for updates is managed by the ENV_CHRON_OBSERVER vatiable, default value is "0 0 0-23 * * *, that means every one clock's houer.
   
 ##    Undefined important topics.
-- Security. Currently api is configured to be a free for access. However, secuity can be set to up by changing security porvider.
+- Security. Currently, api is configured to be a free for access. However, secuity can be set to up by changing security porvider.
 - Data size.  We need another architecture for really scalable application Big Data (if it applicable for a players).
 - In the case of big amount of data, the /api/players GET request must contain pagination parameters, because all data could have a huge size.
 - SLI/PKI metrics must be defined. I have added a custom metrics for all players and concrete player retrieve counters, but we should define others (as timing)
